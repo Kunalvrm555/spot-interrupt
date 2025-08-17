@@ -1,11 +1,11 @@
 {
-  "description": "Minimal: interrupt i-07201347eb5cb4723",
+  "description": "Minimal: interrupt i-05691389103d0a0b6",
   "roleArn": "arn:aws:iam::314123422413:role/FIS-SpotMinimalRole",
   "stopConditions": [ { "source": "none" } ],
   "targets": {
     "targetSpotInstances": {
       "resourceType": "aws:ec2:spot-instance",
-      "resourceArns": ["arn:aws:ec2:us-west-1:314123422413:instance/i-07201347eb5cb4723"],
+      "resourceArns": ["arn:aws:ec2:us-west-1:314123422413:instance/i-05691389103d0a0b6"],
       "selectionMode": "ALL"
     }
   },
