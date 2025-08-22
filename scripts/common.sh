@@ -16,11 +16,11 @@ load_env() {
 }
 
 awsj() {
-  aws --region "$REGION" --output json "$@"
+  aws --profile awsmo-cust --region "$REGION" --output json "$@"
 }
 
 awsiam() {
-  aws iam "$@" # IAM is global: never pass --region
+  aws --profile awsmo-cust iam "$@" # IAM is global: never pass --region
 }
 
 retry() { # retry <times> <sleep_seconds> -- <cmd ...>

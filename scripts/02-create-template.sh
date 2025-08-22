@@ -15,12 +15,12 @@ STATE="$(echo "$DESC" | jq -r '.Reservations[0].Instances[0].State.Name // ""')"
 [[ "$STATE" == "running" ]] || die "Instance must be running (got: $STATE)"
 
 # Check the action exists in this region
-HAS_ACTION="$(aws fis list-actions --region "$REGION" \
+HAS_ACTION="$(aws --profile awsmo-cust fis list-actions --region "$REGION" \
   --query 'actions[?id==`aws:ec2:send-spot-instance-interruptions`].id' --output text 2>/dev/null || true)"
 [[ "$HAS_ACTION" == "aws:ec2:send-spot-instance-interruptions" ]] || die "FIS action not available in region $REGION."
 
 # Build instance ARN
-ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
+ACCOUNT_ID="$(aws --profile awsmo-cust sts get-caller-identity --query Account --output text)"
 INSTANCE_ARN="arn:aws:ec2:${REGION}:${ACCOUNT_ID}:instance/${INSTANCE_ID}"
 
 DURATION="${DURATION_ISO:-PT2M}"
@@ -55,7 +55,7 @@ JSON
 
 # Create template and surface any errors
 set +e
-CREATE_OUT="$(aws fis create-experiment-template --region "$REGION" --cli-input-json file://"$TF" 2>&1)"
+CREATE_OUT="$(aws --profile awsmo-cust fis create-experiment-template --region "$REGION" --cli-input-json file://"$TF" 2>&1)"
 STATUS=$?
 set -e
 if (( STATUS != 0 )); then
