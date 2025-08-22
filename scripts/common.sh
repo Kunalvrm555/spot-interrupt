@@ -1,10 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-log() { echo -e "$*"; }
-ok()  { echo -e "✓ $*"; }
-warn(){ echo -e "⚠ $*" >&2; }
-die() { echo -e "✗ $*" >&2; exit 1; }
+# India timezone logging functions
+timestamp() { TZ='Asia/Kolkata' date '+%Y-%m-%d %H:%M:%S IST'; }
+log() { echo -e "[$(timestamp)] $*"; }
+ok()  { echo -e "[$(timestamp)] ✓ $*"; }
+warn(){ echo -e "[$(timestamp)] ⚠ $*" >&2; }
+die() { echo -e "[$(timestamp)] ✗ $*" >&2; exit 1; }
+
+# Timing functions
+start_timer() { echo "$(date +%s)"; }
+elapsed_time() { 
+  local start="$1"
+  local now="$(date +%s)"
+  local elapsed=$((now - start))
+  local mins=$((elapsed / 60))
+  local secs=$((elapsed % 60))
+  if (( mins > 0 )); then
+    echo "${mins}m ${secs}s"
+  else
+    echo "${secs}s"
+  fi
+}
 
 need() { command -v "$1" >/dev/null 2>&1 || die "Missing dependency: $1"; }
 

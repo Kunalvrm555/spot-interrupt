@@ -36,10 +36,11 @@ POLICY="$(cat <<'JSON'
 {
   "Version": "2012-10-17",
   "Statement": [{
-    "Sid": "AllowSpotInterruptions",
+    "Sid": "AllowSpotActions",
     "Effect": "Allow",
     "Action": [
       "ec2:SendSpotInstanceInterruptions",
+      "ec2:SendSpotInstanceRebalanceRecommendations",
       "ec2:DescribeInstances"
     ],
     "Resource": "*"
